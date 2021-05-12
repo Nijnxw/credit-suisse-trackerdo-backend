@@ -1,0 +1,4 @@
+{
+  "mongoURI":
+    "mongodb+srv://trackerdoOwner:G3UjUhbGEFVdqMWL@trackerdo.wrhu2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}
