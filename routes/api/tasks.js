@@ -14,7 +14,7 @@ router.get('/test', (req, res) => res.send('task route testing!'));
 // @access Public
 router.get('/', (req, res) => {
   Task.find()
-    .then(tasks => res.json(tasks))
+    .then(tasks => res.json(tasks.toJson()))
     .catch(err => res.status(404).json({ notasksfound: 'No Tasks found' }));
 });
 

@@ -31,4 +31,13 @@ const TaskSchema = new mongoose.Schema({
   }
 });
 
+TaskSchema.set('toJSON', {
+  getters: true,
+  transform: (doc, ret) => {
+    ret.status = ret.status.toString();
+    delete ret.__v;
+    return ret;
+  },
+});
+
 module.exports = Task = mongoose.model('task', TaskSchema);
