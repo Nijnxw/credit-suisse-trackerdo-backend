@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Load Task model
 const Task = require('../../models/Task');
+const taskController = require('../../controllers/taskController')
 
 // @route GET api/tasks/test
 // @description tests tasks route
@@ -12,48 +13,46 @@ router.get('/test', (req, res) => res.send('task route testing!'));
 // @route GET api/tasks
 // @description Get all tasks
 // @access Public
-router.get('/', (req, res) => {
-  Task.find()
-    .then(tasks => res.json(tasks.toJson()))
-    .catch(err => res.status(404).json({ notasksfound: 'No Tasks found' }));
-});
+router.get('/', taskController.getAllTasks);
+
+// @route GET api/tasks/ongoing
+// @description Get all ongoing tasks
+// @access Public
+router.get('/ongoing', taskController.getAllOngoingTasks);
+
+// @route GET api/tasks/overdued
+// @description Get all overdued tasks
+// @access Public
+router.get('/overdued', taskController.getAllOverduedTasks);
+
+// @route GET api/tasks/completed
+// @description Get all completed tasks
+// @access Public
+router.get('/completed', taskController.getAllCompletedTasks);
 
 // @route GET api/tasks/:id
 // @description Get single task by id
 // @access Public
-router.get('/:id', (req, res) => {
-  Task.findById(req.params.id)
-    .then(task => res.json(task))
-    .catch(err => res.status(404).json({ notaskfound: 'No Task found' }));
-});
+router.get('/:id', taskController.getTaskById);
 
 // @route POST api/tasks
 // @description add/save task
 // @access Public
-router.post('/', (req, res) => {
-  Task.create(req.body)
-    .then(task => res.json({ msg: 'Task added successfully' }))
-    .catch(err => res.status(400).json({ error: 'Unable to add this task' }));
-});
+router.post('/', taskController.createTask);
+
+// @route POST api/tasks/new
+// @description add/save new task
+// @access Public
+router.post('/new', taskController.createNewTask);
 
 // @route PUT api/tasks/:id
 // @description Update task
 // @access Public
-router.put('/:id', (req, res) => {
-  Task.findByIdAndUpdate(req.params.id, req.body)
-    .then(task => res.json({ msg: 'Updated successfully' }))
-    .catch(err =>
-      res.status(400).json({ error: 'Unable to update the Database' })
-    );
-});
+router.put('/:id', taskController.updateTaskById);
 
 // @route DELETE api/tasks/:id
 // @description Delete task by id
 // @access Public
-router.delete('/:id', (req, res) => {
-  Task.findByIdAndRemove(req.params.id, req.body)
-    .then(task => res.json({ mgs: 'Task entry deleted successfully' }))
-    .catch(err => res.status(404).json({ error: 'No such a task' }));
-});
+router.delete('/:id', taskController.deleteTaskById);
 
 module.exports = router;

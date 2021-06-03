@@ -5,27 +5,30 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String
+  },
+  dueDate: {
+    type: Date,
+    required: true
+  },
   status: {
     type: mongoose.Types.Decimal128,
     min: 0,
     max: 100,
-    required: true
+    required: true,
+    default: 0,
   },
-  is_completed: {
+  isCompleted: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false,
   },
-  description: {
-    type: String
-  },
-  due_date: {
+  createdAt: {
     type: Date,
-    required: true
+    default: Date.now
   },
-  published_date: {
-    type: Date
-  },
-  updated_date: {
+  updatedAt: {
     type: Date,
     default: Date.now
   }
@@ -34,7 +37,9 @@ const TaskSchema = new mongoose.Schema({
 TaskSchema.set('toJSON', {
   getters: true,
   transform: (doc, ret) => {
-    ret.status = ret.status.toString();
+    ret.id = ret._id.toString();
+    ret.status = parseInt(ret.status.toString());
+    delete ret._id;
     delete ret.__v;
     return ret;
   },
