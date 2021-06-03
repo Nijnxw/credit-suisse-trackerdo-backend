@@ -25,6 +25,11 @@ router.get('/ongoing', taskController.getAllOngoingTasks);
 // @access Public
 router.get('/overdued', taskController.getAllOverduedTasks);
 
+// @route GET api/tasks/today
+// @description Get all tasks due today
+// @access Public
+router.get('/today', taskController.getTodayTasks);
+
 // @route GET api/tasks/completed
 // @description Get all completed tasks
 // @access Public

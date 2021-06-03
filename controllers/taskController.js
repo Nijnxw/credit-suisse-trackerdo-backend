@@ -27,6 +27,16 @@ const getAllOverduedTasks = async (req, res) => {
     .catch(err => res.status(404).json({ notaskfound: 'No Overdued Task found' }))
 }
 
+const getTodayTasks = async (req, res) => {
+  Task.find({
+      status: { $lt: 100 },
+      isCompleted: 'false',
+      dueDate: { $eq: new Date() },
+    })
+    .then(tasks => res.status(200).json(tasks))
+    .catch(err => res.status(404).json({ notaskfound: 'No Overdued Task found' }))
+}
+
 const getAllCompletedTasks = async (req, res) => {
   Task.find({
       status: { $eq: 100 },
@@ -64,7 +74,7 @@ const updateTaskById = async (req, res) => {
 }
 
 const deleteTaskById = async (req, res) => {
-  Task.findByIdAndRemove(req.params.id, req.body)
+  Task.findByIdAndRemove(req.params.id)
     .then(task => res.json({ mgs: 'Task entry deleted successfully' }))
     .catch(err => res.status(404).json({ error: 'No such a task' }));
 }
@@ -72,6 +82,7 @@ const deleteTaskById = async (req, res) => {
 exports.getAllTasks = getAllTasks
 exports.getAllOngoingTasks = getAllOngoingTasks
 exports.getAllOverduedTasks = getAllOverduedTasks
+exports.getTodayTasks = getTodayTasks
 exports.getAllCompletedTasks = getAllCompletedTasks
 exports.getTaskById = getTaskById
 exports.createTask = createTask
