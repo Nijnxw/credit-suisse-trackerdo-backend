@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Load Task model
-const Task = require('../../models/Task');
+// Load Task Controller
 const taskController = require('../../controllers/taskController')
 
 // @route GET api/tasks/test
