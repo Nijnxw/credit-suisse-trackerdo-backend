@@ -5,6 +5,7 @@ const cors = require('cors');
 
 // routes
 const tasks = require('./routes/api/tasks');
+const progress = require('./routes/api/progress');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get('/', (req, res) => res.send('Hello world!'));
 
 // use Routes
 app.use('/api/tasks', tasks);
+app.use('/api/progress', progress);
 
 const port = process.env.PORT || 8082;
 
