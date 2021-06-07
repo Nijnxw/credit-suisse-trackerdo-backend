@@ -16,12 +16,7 @@ const getStatistics = async (req, res, next) => {
       .then(tasks => notStarted = tasks.length)
     notStarted = await Task.find({ status: { $eq: 0 }, isCompleted: 'false', dueDate: { $gte: currentDate } })
       .then(tasks => tasks.length)
-    const statistics = {
-      completed,
-      inProgress,
-      overdued,
-      notStarted,
-    }
+    const statistics = [completed, inProgress, overdued, notStarted]
     res.status(200).json(statistics)
     return
   } catch (err) {
