@@ -15,4 +15,8 @@
 .env.test.local
 .env.production.local
 
+# others
+/Trackerdo_files
+Trackerdo.html
+
 npm-debug.log*
