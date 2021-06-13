@@ -37,26 +37,37 @@ router.get('/completed', taskController.getAllCompletedTasks);
 // @route GET api/tasks/:id
 // @description Get single task by id
 // @access Public
-router.get('/:id', taskController.getTaskById);
-
-// @route POST api/tasks
-// @description add/save task
-// @access Public
-router.post('/', taskController.createTask);
+router.get('/:id', async (req, res) => {
+  taskController.getTaskById(req.params.id)
+    .then(task => res.json(task))
+    .catch(err => res.status(400).json({ error: 'Unable to find task' }))
+});
 
 // @route POST api/tasks/new
 // @description add/save new task
 // @access Public
-router.post('/new', taskController.createNewTask);
+router.post('/new', async (req, res) => {
+  taskController.createNewTask(req.body)
+    .then(task => res.json(task))
+    .catch(err => res.status(400).json({ error: 'Unable to create task' }))
+});
 
 // @route PUT api/tasks/:id
 // @description Update task
 // @access Public
-router.put('/:id', taskController.updateTaskById);
+router.put('/:id', async (req, res) => {
+  taskController.updateTaskById(req.params.id, res.body)
+    .then(task => res.json(task))
+    .catch(err => res.status(400).json({ error: 'Unable to update task' }))
+});
 
 // @route DELETE api/tasks/:id
 // @description Delete task by id
 // @access Public
-router.delete('/:id', taskController.deleteTaskById);
+router.delete('/:id', async (req, res) => {
+  taskController.deleteTaskById(req.params.id)
+    .then(task => res.json(task))
+    .catch(err => res.status(400).json({ error: 'Unable to delete task' }))
+});
 
 module.exports = router;

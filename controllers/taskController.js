@@ -44,37 +44,50 @@ const getAllCompletedTasks = async (req, res) => {
     .catch(err => res.status(404).json({ notaskfound: 'No Overdued Task found' }))
 }
 
-const getTaskById = async (req, res) => {
-  Task.findById(req.params.id)
-    .then(task => res.json(task))
-    .catch(err => res.status(404).json({ notaskfound: 'No Task found' }));
+const getTaskById = async (taskId) => {
+  try {
+    const foundTask = await Task.findById(taskId)
+    if (!foundTask) throw new Error('No task found')
+    return foundTask
+  } catch (err) {
+    throw err
+  }
 }
 
-const createTask = async (req, res) => {
-  Task.create(req.body)
-    .then(task => res.json({ msg: 'Task added successfully' }))
-    .catch(err => res.status(400).json({ error: 'Unable to add this task' }));
+const createNewTask = async ({ title, description, dueDate }) => {
+  try {
+    const newTask = new Task({
+      title,
+      description,
+      dueDate,
+    })
+    await newTask.save()
+
+    return {
+      taskId: newTask._id
+    }
+  } catch (err) {
+    throw err
+  }
 }
 
-const createNewTask = async (req, res) => {
-  const { title, description, dueDate } = req.body
-  Task.create({ title, description, dueDate })
-    .then(task => res.json({ msg: 'Task added successfully' }))
-    .catch(err => res.status(400).json({ error: 'Unable to add this task' }));
+const updateTaskById = async (taskId, updates) => {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(taskId, updates)
+    return { taskId: updatedTask._id }
+  } catch (err) {
+    throw err
+  }
 }
 
-const updateTaskById = async (req, res) => {
-  Task.findByIdAndUpdate(req.params.id, req.body)
-    .then(task => res.json({ msg: 'Updated successfully' }))
-    .catch(err =>
-      res.status(400).json({ error: 'Unable to update the Database' })
-    );
-}
-
-const deleteTaskById = async (req, res) => {
-  Task.findByIdAndRemove(req.params.id)
-    .then(task => res.json({ mgs: 'Task entry deleted successfully' }))
-    .catch(err => res.status(404).json({ error: 'No such a task' }));
+const deleteTaskById = async (taskId) => {
+  try {
+    const foundTask = await Task.findByIdAndRemove(taskId)
+    if (!foundTask) throw new Error('No task found')
+    return { taskId: foundTask._id }
+  } catch (err) {
+    throw err
+  }
 }
 
 exports.getAllTasks = getAllTasks
@@ -83,7 +96,6 @@ exports.getAllOverduedTasks = getAllOverduedTasks
 exports.getTodayTasks = getTodayTasks
 exports.getAllCompletedTasks = getAllCompletedTasks
 exports.getTaskById = getTaskById
-exports.createTask = createTask
 exports.createNewTask = createNewTask
 exports.updateTaskById = updateTaskById
 exports.deleteTaskById = deleteTaskById
