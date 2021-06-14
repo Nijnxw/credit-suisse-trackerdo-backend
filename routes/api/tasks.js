@@ -56,7 +56,7 @@ router.post('/new', async (req, res) => {
 // @description Update task
 // @access Public
 router.put('/:id', async (req, res) => {
-  taskController.updateTaskById(req.params.id, res.body)
+  taskController.updateTaskById(req.params.id, req.body)
     .then(task => res.json(task))
     .catch(err => res.status(400).json({ error: 'Unable to update task' }))
 });
