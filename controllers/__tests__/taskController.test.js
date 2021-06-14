@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const taskController = require('../controllers/taskController')
-const Task = require('../models/Task')
-const db = require('./db')
+const taskController = require('../taskController')
+const Task = require('../../models/Task')
+const db = require('../../tests/db')
 
 beforeAll(async () => await db.connect())
 

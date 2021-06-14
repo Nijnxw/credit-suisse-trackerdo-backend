@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "app": "nodemon app.js",
-    "test": "jest --testEnvironment=node --runInBand ./tests"
+    "test": "jest --testEnvironment=node --runInBand"
   },
   "repository": {
     "type": "git",
